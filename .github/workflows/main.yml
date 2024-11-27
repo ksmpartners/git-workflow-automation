@@ -19,6 +19,6 @@ jobs:
             head: context.ref,
             title: 'Automated Pull Request',
           });
-          const response = await github.request('POST /repos/{owner}/{repo}/pulls', payload);
+          const response = await github.request('POST /repos/ksmpartners/git-workflow-automation/pulls', payload);
           console.log(response.data.html_url);
 
