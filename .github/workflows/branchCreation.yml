@@ -30,4 +30,5 @@ jobs:
             password: ${{ secrets.EMAIL_PASSWORD }}
             subject: 'GitHub Issue Assigned'
             body: 'A GitHub issue has been assigned to you. Please proceed with Domino Workspace creation using branch issue/${{ steps.extract.outputs.issue_number }}'
+            from: mailer@ksmpartners.com
             to: ${{ github.event.issue.assignee.login }}
