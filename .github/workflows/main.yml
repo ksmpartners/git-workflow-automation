@@ -1,0 +1,24 @@
+name: Pull Request on Branch Push
+
+on:
+  push:
+    branches:
+    - Issue/*
+
+jobs:
+  pull-request:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Create Pull Request
+      uses: actions/github-script@0.9.0
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const payload = JSON.stringify({
+            base: 'main',
+            head: context.ref,
+            title: 'Automated Pull Request',
+          });
+          const response = await github.request('POST /repos/{owner}/{repo}/pulls', payload);
+          console.log(response.data.html_url);
+
