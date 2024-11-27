@@ -22,12 +22,15 @@ jobs:
           git push origin issue/${{ steps.extract.outputs.issue_number }}
 
       - name: Send Email Notification
+        env:
+          EMAIL_USERNAME: ${{ secrets.EMAIL_USERNAME }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
         uses: dawidd6/action-send-mail@v2
         with:
             server_address: smtp.gmail.com
             server_port: 587
-            username: ${{ secrets.EMAIL_USERNAME }}
-            password: ${{ secrets.EMAIL_PASSWORD }}
+            username: $EMAIL_USERNAME
+            password: $EMAIL_PASSWORD
             subject: 'GitHub Issue Assigned'
             body: 'A GitHub issue has been assigned to you. Please proceed with Domino Workspace creation using branch issue/${{ steps.extract.outputs.issue_number }}'
             from: mailer@ksmpartners.com
