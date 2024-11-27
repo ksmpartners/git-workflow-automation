@@ -29,6 +29,8 @@ jobs:
         with:
             server_address: smtp.gmail.com
             server_port: 465
+            secure: true
+            ignore_cert: true
             username: $EMAIL_USERNAME
             password: $EMAIL_PASSWORD
             subject: 'GitHub Issue Assigned'
