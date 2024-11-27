@@ -1,0 +1,22 @@
+name: Create Branch on Issue Creation
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  create-branch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Extract Issue Number
+        id: extract
+        run: echo "::set-output name=issue_number::${{ github.event.issue.number }}"
+
+      - name: Create Branch
+        run: |
+          git checkout -b issue/${{ steps.extract.outputs.issue_number }}
+          git push origin issue/${{ steps.extract.outputs.issue_number }}
