@@ -3,7 +3,7 @@ name: Pull Request on Branch Push
 on:
   push:
     branches:
-    - Issue/*
+    - issue/*
 
 jobs:
   pull-request:
