@@ -3,17 +3,17 @@ name: Create Pull Request on Issue Branch
 on:
   push:
     branches:
-      - 'issue/21'
+      - 'issue/**'
 
 jobs:
   create_pull_request:
-    runs-on: ubuntu-latest
-
+    runs-on: ubuntu-latest     
     steps:
-      - name: Set base branch
-        run: echo "::set-env name=BASE_BRANCH::${GITHUB_REF#refs/heads/}"
-        
+      - name: Checkout code
+        uses: actions/checkout@v2
       - name: Create Pull Request
-        run: gh pr create -B ${{ env.BASE_BRANCH }} -H ${{ github.ref }} --title 'Merge ${{ github.ref }} into ${{ env.BASE_BRANCH }}' --body 'Created by GitHub action'
+        run: |
+          git checkout -b ${{ github.ref }}
+          gh pr create -B main -H ${{ github.ref }} --title 'Merge ${{ github.ref }} into main' --body 'Created by GitHub action'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
