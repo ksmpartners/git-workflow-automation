@@ -20,16 +20,16 @@ jobs:
         run: |
           git checkout -b issue/${{ steps.extract.outputs.issue_number }}
           git push origin issue/${{ steps.extract.outputs.issue_number }}
-
-      - name: Send Email Notification
-        env:
-          EMAIL_USERNAME: ${{ secrets.EMAIL_USERNAME }}
-          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
-        uses: dawidd6/action-send-mail@v3
-        with:
-            server_address: smtp.gmail.com
-            server_port: 465
-            secure: true
+    
+      # - name: Send Email Notification
+      #   env:
+      #     EMAIL_USERNAME: ${{ secrets.EMAIL_USERNAME }}
+      #     EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+      #   uses: dawidd6/action-send-mail@v3
+      #   with:
+      #       server_address: smtp.gmail.com
+      #       server_port: 465
+      #       secure: true
             ignore_cert: true
             username: $EMAIL_USERNAME
             password: $EMAIL_PASSWORD
