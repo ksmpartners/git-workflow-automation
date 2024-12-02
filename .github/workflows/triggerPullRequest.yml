@@ -3,7 +3,7 @@ name: Create Pull Request on Issue Branch
 on:
   push:
     branches:
-      - 'issue/**'
+      - 'issue/21'
 
 jobs:
   create_pull_request:
