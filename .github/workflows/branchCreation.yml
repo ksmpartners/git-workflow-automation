@@ -1,20 +1,26 @@
-name: Create Pull Request on Issue Branch
+name: Create Branch on Issue Creation
 
 on:
-  push:
-    branches:
-      - 'issue/**'
+  issues:
+    types: [opened]
 
 jobs:
-  create_pull_request:
-    runs-on: ubuntu-latest     
+  create-branch:
+    runs-on: ubuntu-latest
+
     steps:
-      - name: Create Pull Request
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Extract Issue Number
+        id: extract
+        run: echo "::set-output name=issue_number::${{ github.event.issue.number }}"
+
+      - name: Create Branch
         run: |
-          cd $GITHUB_WORKSPACE
-          gh pr create -B main -H ${{ github.ref }} --title 'Merge ${{ github.ref }} into main' --body 'Created by GitHub action'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          git checkout -b issue/${{ steps.extract.outputs.issue_number }}
+          git push origin issue/${{ steps.extract.outputs.issue_number }}
+    
       # - name: Send Email Notification
       #   env:
       #     EMAIL_USERNAME: ${{ secrets.EMAIL_USERNAME }}
