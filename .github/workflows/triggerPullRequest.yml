@@ -1,24 +1,19 @@
-name: Pull Request on Branch Push
+name: Create Pull Request on Issue Branch
 
 on:
   push:
     branches:
-    - 'issue/**'
+      - 'issue/**'
 
 jobs:
-  pull-request:
+  create_pull_request:
     runs-on: ubuntu-latest
-    steps:
-    - name: Create Pull Request
-      uses: actions/github-script@0.9.0
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        script: |
-          const payload = JSON.stringify({
-            base: 'main',
-            head: context.ref,
-            title: 'Automated Pull Request',
-          });
-          const response = await github.request('POST /repos/ksmpartners/git-workflow-automation/pulls', payload);
-          console.log(response.data.html_url);
 
+    steps:
+      - name: Set base branch
+        run: echo "::set-env name=BASE_BRANCH::${GITHUB_REF#refs/heads/}"
+        
+      - name: Create Pull Request
+        run: gh pr create -B ${{ env.BASE_BRANCH }} -H ${{ github.ref }} --title 'Merge ${{ github.ref }} into ${{ env.BASE_BRANCH }}' --body 'Created by GitHub action'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
